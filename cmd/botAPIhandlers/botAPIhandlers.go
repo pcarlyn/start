@@ -3,40 +3,55 @@ package botapihandlers
 import (
 	"ProjectX/api/internal/models"
 	"ProjectX/api/internal/utils"
-	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
 func HandleCommand(c echo.Context) error {
-	var userData models.Response
-	var update = false
-	var answer string
-
+	var userData models.Result
+	var answer models.Response
 	if err := c.Bind(&userData); err != nil {
 		return err
 	}
-	_, err := utils.GetUserById("http://localhost:8088", "users", userData.Result[0].Message.From.ID)
-	if err != nil {
-		fmt.Printf("error sending GETuserById request: %v\n", err)
-		_, err := utils.PostUser("http://localhost:8088", "users", userData)
-		if err != nil {
-			fmt.Printf("error sending POSTuser request: %v\n", err)
+	_, statusCode := utils.GetUserById(models.RepositoryURL, "users", userData.Message.From.ID)
+	switch statusCode {
+	case http.StatusOK:
+		exp, _ := utils.GetAnswer(models.RepositoryURL, "commands", "start", "registred")
+		answer = models.Response{
+			ID:     uint(userData.Message.Chat.ID),
+			ChatID: userData.Message.Chat.ID,
+			Text:   exp,
 		}
-		update = true
-		answer = "first"
-	}
-	if !update {
-		_, err = utils.PatchUserById("http://localhost:8088", "users", userData)
-		if err != nil {
-			fmt.Printf("error sending PATCHuserById request: %v", err)
+	case http.StatusNotFound:
+		_, statusCode := utils.GetProfileById(models.RepositoryURL, "profile", userData.Message.From.ID)
+		switch statusCode {
+		case http.StatusOK:
+			exp, _ := utils.GetAnswer(models.RepositoryURL, "commands", "start", "registred")
+			answer = models.Response{
+				ID:     uint(userData.Message.Chat.ID),
+				ChatID: userData.Message.Chat.ID,
+				Text:   exp,
+			}
+		case http.StatusNotFound:
+			exp, _ := utils.GetAnswer(models.RepositoryURL, "commands", "start", "registred")
+			answer = models.Response{
+				ID:     uint(userData.Message.Chat.ID),
+				ChatID: userData.Message.Chat.ID,
+				Text:   exp,
+			}
 		}
-		answer = "second"
 	}
-	result, err := utils.GetAnswer("http://localhost:8088", "bot/commands/", "start", answer)
-	if err != nil {
-		fmt.Printf("error sending GETanswer request: %v\n", err)
-	}
-	return c.JSON(http.StatusOK, result)
+	// get porile (id user)
+	//  if err {
+	//    profile
+	// 	post profile (id user)
+	//  }
+	//  init user
+	//  tg - api
+	//  user
+	//  post user
+	// fmt.Printf("error sending GETuserById request: %v\n", err)
+
+	return c.JSON(http.StatusOK, answer)
 }
