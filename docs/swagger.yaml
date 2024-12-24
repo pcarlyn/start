@@ -1,0 +1,190 @@
+basePath: /
+definitions:
+  models.Atachment:
+    properties:
+      type:
+        type: string
+      url:
+        type: string
+    type: object
+  models.Button:
+    properties:
+      caption:
+        type: string
+      data:
+        type: string
+      order:
+        type: integer
+      row:
+        type: integer
+    type: object
+  models.Chat:
+    properties:
+      first_name:
+        type: string
+      id:
+        type: integer
+      location:
+        type: string
+      photo:
+        type: string
+      type:
+        type: string
+      username:
+        type: string
+    type: object
+  models.Entity:
+    properties:
+      length:
+        type: integer
+      offset:
+        type: integer
+      type:
+        type: string
+    type: object
+  models.ErrorResponse:
+    properties:
+      code:
+        type: string
+      error:
+        type: string
+    type: object
+  models.Keyboard:
+    properties:
+      buttons:
+        items:
+          $ref: '#/definitions/models.Button'
+        type: array
+      type:
+        type: string
+    type: object
+  models.Message:
+    properties:
+      chat:
+        $ref: '#/definitions/models.Chat'
+      date:
+        type: integer
+      entities:
+        items:
+          $ref: '#/definitions/models.Entity'
+        type: array
+      from:
+        $ref: '#/definitions/models.User'
+      message_auto_delete_timer_changed:
+        $ref: '#/definitions/models.MessageAutoDeleteTimerChanged'
+      message_id:
+        type: integer
+      proximity_alert_triggered:
+        $ref: '#/definitions/models.ProximityAlertTriggered'
+      text:
+        type: string
+      voice_chat_ended:
+        type: string
+      voice_chat_participants_invited:
+        type: string
+      voice_chat_scheduled:
+        type: string
+      voice_chat_started:
+        type: string
+    type: object
+  models.MessageAutoDeleteTimerChanged:
+    properties:
+      message_auto_delete_time:
+        type: integer
+    type: object
+  models.ProximityAlertTriggered:
+    properties:
+      traveler:
+        $ref: '#/definitions/models.User'
+      watcher:
+        $ref: '#/definitions/models.User'
+    type: object
+  models.Response:
+    properties:
+      attachments:
+        items:
+          $ref: '#/definitions/models.Atachment'
+        type: array
+      chat_id:
+        type: integer
+      id:
+        type: integer
+      keyboard:
+        $ref: '#/definitions/models.Keyboard'
+      keyboard_flag:
+        type: boolean
+      text:
+        type: string
+    type: object
+  models.Result:
+    properties:
+      chat_join_request:
+        type: string
+      chat_member:
+        type: string
+      message:
+        $ref: '#/definitions/models.Message'
+      my_chat_member:
+        type: string
+      update_id:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      first_name:
+        type: string
+      id:
+        type: integer
+      is_bot:
+        type: boolean
+      is_premium:
+        type: boolean
+      language_code:
+        type: string
+      username:
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+info:
+  contact: {}
+  description: API Server for Bot Application
+  title: Controller
+  version: "1.0"
+paths:
+  /botapi/v1/commands:
+    post:
+      consumes:
+      - application/json
+      description: Description
+      parameters:
+      - description: All data from TG
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Result'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Response
+          schema:
+            $ref: '#/definitions/models.Response'
+        "403":
+          description: Server error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Server error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Summary
+      tags:
+      - bot
+swagger: "2.0"

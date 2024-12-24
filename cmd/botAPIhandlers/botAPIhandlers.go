@@ -8,6 +8,18 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for all comands bot
+// @Summary Summary
+// @Description Description
+// @Tags bot
+// @Accept json
+// @Produce json
+// @Param data body models.Result true "All data from TG"
+// @Success 200 {object} models.Response "Success Response"
+// @Failure 403 {object} models.ErrorResponse "Server error"
+// @Failure 404 {object} models.ErrorResponse "Server error"
+// @Failure 500 {object} models.ErrorResponse "Server error"
+// @Router /botapi/v1/commands [post]
 func HandleCommand(c echo.Context) error {
 	var userData models.Result
 	var answer models.Response
