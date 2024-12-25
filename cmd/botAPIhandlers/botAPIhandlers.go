@@ -35,6 +35,7 @@ func HandleCommand(c echo.Context) error {
 			ChatID: userData.Message.Chat.ID,
 			Text:   exp,
 		}
+		return c.JSON(statusCode, answer)
 	case http.StatusNotFound:
 		_, statusCode := utils.GetProfileById(models.RepositoryURL, "profile", userData.Message.From.ID)
 		switch statusCode {
@@ -45,6 +46,8 @@ func HandleCommand(c echo.Context) error {
 				ChatID: userData.Message.Chat.ID,
 				Text:   exp,
 			}
+			return c.JSON(statusCode, answer)
+
 		case http.StatusNotFound:
 			exp, _ := utils.GetAnswer(models.RepositoryURL, "commands", "start", "registred")
 			answer = models.Response{
@@ -52,7 +55,25 @@ func HandleCommand(c echo.Context) error {
 				ChatID: userData.Message.Chat.ID,
 				Text:   exp,
 			}
+			return c.JSON(statusCode, answer)
+
+		case http.StatusInternalServerError:
+			exp, _ := utils.GetAnswer(models.RepositoryURL, "commands", "start", "registred")
+			answer = models.Response{
+				ID:     uint(userData.Message.Chat.ID),
+				ChatID: userData.Message.Chat.ID,
+				Text:   exp,
+			}
+			return c.JSON(statusCode, answer)
 		}
+	case http.StatusInternalServerError:
+		exp, _ := utils.GetAnswer(models.RepositoryURL, "commands", "start", "registred")
+		answer = models.Response{
+			ID:     uint(userData.Message.Chat.ID),
+			ChatID: userData.Message.Chat.ID,
+			Text:   exp,
+		}
+		return c.JSON(statusCode, answer)
 	}
 	// get porile (id user)
 	//  if err {
