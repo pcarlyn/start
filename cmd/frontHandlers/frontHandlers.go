@@ -26,5 +26,5 @@ func HandleAuth(c echo.Context) error {
 		}
 	}
 
-	return c.JSON(http.StatusOK, auth)
+	return c.JSON(status, auth)
 }

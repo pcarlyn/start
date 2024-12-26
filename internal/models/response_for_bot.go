@@ -47,3 +47,7 @@ type Condition struct {
 	Variables map[string]string
 	State     UserState
 }
+
+type Answer struct {
+	Answer string
+}

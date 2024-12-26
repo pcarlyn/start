@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"ProjectX/api/internal/models"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -8,8 +9,8 @@ import (
 	"net/url"
 )
 
-func GetAnswer(baseURL, route, command, commandType string) (string, int) {
-	var result string
+func GetAnswer(baseURL, route, command, commandType string) (models.Answer, int) {
+	var result models.Answer
 	fullurl := fmt.Sprintf("%s/%s", baseURL, route)
 
 	queryParams := url.Values{}
@@ -18,20 +19,20 @@ func GetAnswer(baseURL, route, command, commandType string) (string, int) {
 
 	resp, err := http.Get(fullurl + "?" + queryParams.Encode())
 	if err != nil {
-		return "", http.StatusInternalServerError
+		return models.Answer{}, http.StatusInternalServerError
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusNotFound {
-		return "", http.StatusNotFound
+		return models.Answer{}, http.StatusNotFound
 	}
 
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return "", http.StatusInternalServerError
+		return models.Answer{}, http.StatusInternalServerError
 	}
 	if err := json.Unmarshal(respBody, &result); err != nil {
-		return "", http.StatusInternalServerError
+		return models.Answer{}, http.StatusInternalServerError
 	}
 	return result, http.StatusOK
 }

@@ -33,7 +33,7 @@ func HandleCommand(c echo.Context) error {
 		answer = models.Response{
 			ID:     uint(userData.Message.Chat.ID),
 			ChatID: userData.Message.Chat.ID,
-			Text:   exp,
+			Text:   exp.Answer,
 		}
 		return c.JSON(statusCode, answer)
 	case http.StatusNotFound:
@@ -44,7 +44,7 @@ func HandleCommand(c echo.Context) error {
 			answer = models.Response{
 				ID:     uint(userData.Message.Chat.ID),
 				ChatID: userData.Message.Chat.ID,
-				Text:   exp,
+				Text:   exp.Answer,
 			}
 			return c.JSON(statusCode, answer)
 
@@ -53,7 +53,7 @@ func HandleCommand(c echo.Context) error {
 			answer = models.Response{
 				ID:     uint(userData.Message.Chat.ID),
 				ChatID: userData.Message.Chat.ID,
-				Text:   exp,
+				Text:   exp.Answer,
 			}
 			return c.JSON(statusCode, answer)
 
@@ -62,7 +62,7 @@ func HandleCommand(c echo.Context) error {
 			answer = models.Response{
 				ID:     uint(userData.Message.Chat.ID),
 				ChatID: userData.Message.Chat.ID,
-				Text:   exp,
+				Text:   exp.Answer,
 			}
 			return c.JSON(statusCode, answer)
 		}
@@ -71,7 +71,7 @@ func HandleCommand(c echo.Context) error {
 		answer = models.Response{
 			ID:     uint(userData.Message.Chat.ID),
 			ChatID: userData.Message.Chat.ID,
-			Text:   exp,
+			Text:   exp.Answer,
 		}
 		return c.JSON(statusCode, answer)
 	}
@@ -86,5 +86,5 @@ func HandleCommand(c echo.Context) error {
 	//  post user
 	// fmt.Printf("error sending GETuserById request: %v\n", err)
 
-	return c.JSON(http.StatusOK, answer)
+	return c.JSON(statusCode, answer)
 }

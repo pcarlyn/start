@@ -6,6 +6,10 @@ type Tag struct {
 	Caption string
 }
 
+type ProfileMap struct {
+	ProfileMap map[int]Profile
+}
+
 type Profile struct {
 	Active     bool
 	Registered int64
