@@ -7,6 +7,13 @@ definitions:
       url:
         type: string
     type: object
+  models.Auth:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    type: object
   models.Button:
     properties:
       caption:

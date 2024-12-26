@@ -80,6 +80,17 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Auth": {
+            "type": "object",
+            "properties": {
+                "login": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Button": {
             "type": "object",
             "properties": {

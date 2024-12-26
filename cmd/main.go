@@ -29,7 +29,7 @@ func main() {
 		AllowHeaders: []string{echo.HeaderContentType},  // Разрешённые заголовки
 	}))
 
-	e.GET("/swagger/*", echoSwagger.EchoWrapHandler(func(c *echoSwagger.Config) {
+	e.GET("/swagger*", echoSwagger.EchoWrapHandler(func(c *echoSwagger.Config) {
 		c.URLs = []string{fmt.Sprintf("http://%s:%s/swagger/doc.json", "127.0.0.1", "8080")}
 	}))
 

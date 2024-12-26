@@ -8,6 +8,17 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for all comands front
+// @Summary Summary
+// @Description Description
+// @Tags front
+// @Accept json
+// @Produce json
+// @Param data body models.Auth true "Authorization"
+// @Success 200 {object} models.Auth "Success Response"
+// @Failure 403 {object} models.ErrorResponse "Server error"
+// @Failure 404 {object} models.ErrorResponse "Server error"
+// @Failure 500 {object} models.ErrorResponse "Server error"
 func HandleAuth(c echo.Context) error {
 
 	var auth models.Auth
